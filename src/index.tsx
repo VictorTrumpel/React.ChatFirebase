@@ -1,23 +1,36 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { store } from './app/store';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import './index.css';
+import React from "react";
+import { createContext } from "react";
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
+import App from "./App";
 
-const container = document.getElementById('root')!;
+import { initializeApp, FirebaseApp } from "firebase/app";
+import { getFirestore, Firestore } from "firebase/firestore";
+import { getAuth, Auth } from "firebase/auth";
+import { firebaseConfig } from "./firebaseConfig";
+
+export type FireContextType = {
+  firebase: FirebaseApp;
+  auth: Auth;
+  firestore: Firestore;
+};
+
+export const FireContext = createContext<FireContextType | any>(null);
+
+const firebase = initializeApp(firebaseConfig);
+const auth = getAuth(firebase);
+const firestore = getFirestore(firebase);
+
+const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <FireContext.Provider value={{ firebase, auth, firestore }}>
+        <App />
+      </FireContext.Provider>
     </Provider>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
