@@ -8,7 +8,7 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
-import { Container, Grid, TextField, Button, Avatar } from "@mui/material";
+import { Grid, TextField, Button, Avatar } from "@mui/material";
 import { useFireBase } from "../firebase/FireBase";
 
 export const Chat = () => {
@@ -35,61 +35,52 @@ export const Chat = () => {
   };
 
   return (
-    <Container>
-      <Grid
-        container
-        sx={{
-          height: window.innerHeight - 50,
-          alignItems: "center",
-          justifyContent: "center",
+    <>
+      <div
+        style={{
+          width: "80%",
+          height: "70vh",
+          border: "1px solid gray",
+          overflowY: "auto",
         }}
       >
-        <div
-          style={{
-            width: "80%",
-            height: "70vh",
-            border: "1px solid gray",
-            overflowY: "auto",
-          }}
-        >
-          {messages?.map((message, idx) => (
-            <div
-              key={idx}
-              style={{
-                margin: 10,
-                border:
-                  user?.uid === message.uid
-                    ? "2px solid green"
-                    : "2px dashed red",
-                marginLeft: user?.uid === message.uid ? "auto" : "10px",
-                width: "fit-content",
-              }}
-            >
-              <Grid container>
-                <Avatar src={message.photoUrl} />
-                <div>{message.displayName}</div>
-              </Grid>
-              <div>{message.text}</div>
-            </div>
-          ))}
-        </div>
-        <Grid
-          container
-          direction="column"
-          alignItems="flex-end"
-          style={{ width: "80%" }}
-        >
-          <TextField
-            fullWidth
-            value={messageText}
-            variant="outlined"
-            onChange={(e) => setMessageText(e.target.value)}
-          />
-          <Button onClick={sendMessage} variant="outlined">
-            Отправить
-          </Button>
-        </Grid>
+        {messages?.map((message, idx) => (
+          <div
+            key={idx}
+            style={{
+              margin: 10,
+              border:
+                user?.uid === message.uid
+                  ? "2px solid green"
+                  : "2px dashed red",
+              marginLeft: user?.uid === message.uid ? "auto" : "10px",
+              width: "fit-content",
+            }}
+          >
+            <Grid container>
+              <Avatar src={message.photoUrl} />
+              <div>{message.displayName}</div>
+            </Grid>
+            <div>{message.text}</div>
+          </div>
+        ))}
+      </div>
+      <Grid
+        container
+        direction="column"
+        alignItems="flex-end"
+        style={{ width: "80%" }}
+      >
+        <TextField
+          fullWidth
+          value={messageText}
+          variant="outlined"
+          onChange={(e) => setMessageText(e.target.value)}
+        />
+        <Button onClick={sendMessage} variant="outlined">
+          Отправить
+        </Button>
       </Grid>
-    </Container>
+    </>
   );
 };

@@ -1,4 +1,3 @@
-import { Navbar } from "../components/Navbar";
 import React, { ReactNode } from "react";
 
 type BaseLayoutProps = {
@@ -6,10 +5,5 @@ type BaseLayoutProps = {
 };
 
 export const BaseLayout = ({ children }: BaseLayoutProps) => {
-  return (
-    <>
-      <Navbar />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 };
