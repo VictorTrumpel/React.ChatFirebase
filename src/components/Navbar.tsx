@@ -1,22 +1,17 @@
-import { AppBar, Toolbar, Button, Grid } from "@mui/material";
-import { Link } from "react-router-dom";
-import { LOGIN_ROUTE } from "../utils/consts";
-import { useContext } from "react";
-import { FireContext, FireContextType } from "../index";
+import { AppBar, Toolbar, Button } from "@mui/material";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useFireBase } from "../firebase/FireBase";
 
 const LoginBtn = () => {
   return (
-    <Link to={LOGIN_ROUTE}>
-      <Button color="inherit" variant="outlined">
-        Логин
-      </Button>
-    </Link>
+    <Button color="inherit" variant="outlined">
+      Войти
+    </Button>
   );
 };
 
 const LogOutBtn = () => {
-  const { auth } = useContext<FireContextType>(FireContext);
+  const { auth } = useFireBase();
 
   return (
     <Button onClick={() => auth.signOut()} color="inherit" variant="outlined">
@@ -26,17 +21,15 @@ const LogOutBtn = () => {
 };
 
 export const Navbar = () => {
-  const { auth } = useContext<FireContextType>(FireContext);
+  const { auth } = useFireBase();
   const [user] = useAuthState(auth);
 
   const ActionBtn = user ? LogOutBtn : LoginBtn;
 
   return (
     <AppBar color="secondary" position="static">
-      <Toolbar variant="dense">
-        <Grid container sx={{ justifyContent: "flex-end" }}>
-          <ActionBtn />
-        </Grid>
+      <Toolbar>
+        <ActionBtn />
       </Toolbar>
     </AppBar>
   );

@@ -1,5 +1,5 @@
 import { CHAT_ROUTE, LOGIN_ROUTE } from "./utils/consts";
-import { Login } from "./components/Login";
+import { LoginForm } from "./components/LoginForm";
 import { Chat } from "./components/Chat";
 
 type Route = {
@@ -10,7 +10,7 @@ type Route = {
 export const publicRoutes: Route[] = [
   {
     path: LOGIN_ROUTE,
-    Component: Login,
+    Component: LoginForm,
   },
 ];
 

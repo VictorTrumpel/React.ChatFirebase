@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import { FireContext, FireContextType } from "../index";
+import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import {
@@ -10,10 +9,11 @@ import {
   query,
 } from "firebase/firestore";
 import { Container, Grid, TextField, Button, Avatar } from "@mui/material";
+import { useFireBase } from "../firebase/FireBase";
 
 export const Chat = () => {
   const [messageText, setMessageText] = useState("");
-  const { auth, firestore } = useContext<FireContextType>(FireContext);
+  const { auth, firestore } = useFireBase();
   const [user] = useAuthState(auth);
   const [messages] = useCollectionData(
     query(collection(firestore, "messages"), orderBy("createdAt"))
@@ -52,8 +52,9 @@ export const Chat = () => {
             overflowY: "auto",
           }}
         >
-          {messages?.map((message) => (
+          {messages?.map((message, idx) => (
             <div
+              key={idx}
               style={{
                 margin: 10,
                 border:
