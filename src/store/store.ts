@@ -1,7 +1,8 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { pageReducer } from "./reducers/PageSlice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: { pageReducer },
 });
 
 export type AppDispatch = typeof store.dispatch;

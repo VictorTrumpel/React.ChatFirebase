@@ -3,6 +3,7 @@ import { SideBarContainer, SideBarSection } from "./style";
 import StarIcon from "@mui/icons-material/Star";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import SendIcon from "@mui/icons-material/Send";
 
 export const SideBar = () => {
   return (
@@ -12,10 +13,11 @@ export const SideBar = () => {
       </SideBarSection>
 
       <SideBarMenu.Container>
+        <SideBarMenu.Item value="message" label="Мессенджер" Icon={SendIcon} />
         <SideBarMenu.Item value="favorite" label="Избранное" Icon={StarIcon} />
         <SideBarMenu.Item value="deleted" label="Удаленное" Icon={DeleteIcon} />
         <SideBarMenu.Item
-          value="deleted"
+          value="members"
           label="Участники"
           Icon={PeopleAltIcon}
         />
