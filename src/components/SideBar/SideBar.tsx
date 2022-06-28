@@ -4,6 +4,7 @@ import StarIcon from "@mui/icons-material/Star";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SendIcon from "@mui/icons-material/Send";
+import { LogOutBtn } from "../LogOutBtn";
 
 export const SideBar = () => {
   return (
@@ -26,6 +27,8 @@ export const SideBar = () => {
           Icon={PeopleAltIcon}
         />
       </SideBarMenu.Container>
+
+      <LogOutBtn />
     </SideBarContainer>
   );
 };

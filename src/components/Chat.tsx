@@ -1,43 +1,25 @@
-import React, { FormEvent, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
+import React, { FormEvent } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { orderBy, query } from "firebase/firestore";
 import { Avatar, Box } from "@mui/material";
-import { useFireBase } from "../firebase/FireBase";
+import { messagesCollection } from "../firebase/FireBase";
 import { MessageInput } from "./MessageInput";
+import { useUser } from "../hooks/useUser";
+import { store } from "../store/store";
+import { sendMessage } from "../utils/sendMessage";
 
 export const Chat = () => {
-  const [messageText, setMessageText] = useState("");
-  const { auth, firestore } = useFireBase();
-  const [user] = useAuthState(auth);
+  const [user] = useUser();
+
   const [messages] = useCollectionData(
-    query(collection(firestore, "messages"), orderBy("createdAt"))
+    query(messagesCollection, orderBy("createdAt"))
   );
 
-  const sendMessage = async () => {
-    try {
-      await addDoc(collection(firestore, "messages"), {
-        uid: user?.uid,
-        displayName: user?.displayName,
-        photoUrl: user?.photoURL,
-        text: messageText,
-        createdAt: serverTimestamp(),
-      });
-      setMessageText("");
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(e);
+    const messageText = store.getState().messageReducer.message;
+    if (!user) return;
+    await sendMessage(user, messageText);
   };
 
   return (
@@ -64,7 +46,7 @@ export const Chat = () => {
           </div>
         ))}
       </div>
-      <form action="">
+      <form onSubmit={handleSubmitForm}>
         <MessageInput />
       </form>
     </Box>

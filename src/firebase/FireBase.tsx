@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext } from "react";
 import { FirebaseApp, initializeApp } from "firebase/app";
 import { firebaseConfig } from "../firebaseConfig";
 import { Auth, getAuth } from "firebase/auth";
-import { Firestore, getFirestore } from "firebase/firestore";
+import { Firestore, getFirestore, collection } from "firebase/firestore";
 
 export type FireContextType = {
   firebase: FirebaseApp;
@@ -15,6 +15,8 @@ export const FireBaseContext = createContext<FireContextType | any>(null);
 const firebase = initializeApp(firebaseConfig);
 const auth = getAuth(firebase);
 const firestore = getFirestore(firebase);
+
+export const messagesCollection = collection(firestore, "messages");
 
 type FireBaseProps = {
   children: ReactNode;
