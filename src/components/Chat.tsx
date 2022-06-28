@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import {
@@ -8,8 +8,9 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
-import { Grid, TextField, Button, Avatar } from "@mui/material";
+import { Avatar, Box } from "@mui/material";
 import { useFireBase } from "../firebase/FireBase";
+import { MessageInput } from "./MessageInput";
 
 export const Chat = () => {
   const [messageText, setMessageText] = useState("");
@@ -34,53 +35,38 @@ export const Chat = () => {
     }
   };
 
+  const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(e);
+  };
+
   return (
-    <>
-      <div
-        style={{
-          width: "80%",
-          height: "70vh",
-          border: "1px solid gray",
-          overflowY: "auto",
-        }}
-      >
+    <Box
+      height="100%"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+    >
+      <div style={{ flex: "1", overflowY: "auto" }}>
         {messages?.map((message, idx) => (
           <div
             key={idx}
             style={{
-              margin: 10,
-              border:
-                user?.uid === message.uid
-                  ? "2px solid green"
-                  : "2px dashed red",
-              marginLeft: user?.uid === message.uid ? "auto" : "10px",
-              width: "fit-content",
+              display: "flex",
+              marginBottom: "30px",
             }}
           >
-            <Grid container>
-              <Avatar src={message.photoUrl} />
-              <div>{message.displayName}</div>
-            </Grid>
-            <div>{message.text}</div>
+            <Avatar src={message.photoUrl} />
+            <div style={{ marginLeft: "17px" }}>
+              <strong style={{ color: "white" }}>{message.displayName}</strong>
+              <p style={{ marginTop: "5px" }}>{message.text}</p>
+            </div>
           </div>
         ))}
       </div>
-      <Grid
-        container
-        direction="column"
-        alignItems="flex-end"
-        style={{ width: "80%" }}
-      >
-        <TextField
-          fullWidth
-          value={messageText}
-          variant="outlined"
-          onChange={(e) => setMessageText(e.target.value)}
-        />
-        <Button onClick={sendMessage} variant="outlined">
-          Отправить
-        </Button>
-      </Grid>
-    </>
+      <form action="">
+        <MessageInput />
+      </form>
+    </Box>
   );
 };

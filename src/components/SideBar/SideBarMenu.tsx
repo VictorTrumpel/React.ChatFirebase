@@ -16,7 +16,7 @@ const MenuButton = ({ value, label, Icon }: MenuButtonProps) => {
     <StyledMenuButton
       onClick={setPage.bind(null, value)}
       disableRipple
-      sx={{ color: value === page ? "#039be5" : "" }}
+      sx={{ color: value === page ? "white" : "" }}
     >
       <Icon sx={{ width: "20px", height: "20px" }} />
       <small>{label}</small>

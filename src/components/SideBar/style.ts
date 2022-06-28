@@ -27,7 +27,7 @@ export const StyledMenuButton = styled(Button)(() => ({
 export const SideBarContainer = styled("div")(() => ({
   minWidth: "256px",
   maxWidth: "256px",
-  backgroundColor: "#051e34",
+  backgroundColor: "rgb(47, 49, 54)",
   display: "flex",
   flexDirection: "column",
 }));
