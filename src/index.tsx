@@ -4,16 +4,17 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import App from "./App";
 import { FireBase } from "./firebase/FireBase";
+import { Browser } from "./components/Browser";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
+  <Provider store={store}>
+    <Browser>
       <FireBase>
         <App />
       </FireBase>
-    </Provider>
-  </React.StrictMode>
+    </Browser>
+  </Provider>
 );

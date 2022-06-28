@@ -1,17 +1,16 @@
 import { SvgIconComponent } from "@mui/icons-material";
 import { StyledMenuButton, StyledMenuContainer } from "./style";
 import { ReactNode } from "react";
-import { PageState } from "../../store/reducers/PageSlice";
-import { usePage } from "../../hooks/usePage";
+import { useUrl } from "../../hooks/useUrl";
 
 type MenuButtonProps = {
-  value: PageState;
+  value: string;
   label: string;
   Icon: SvgIconComponent;
 };
 
 const MenuButton = ({ value, label, Icon }: MenuButtonProps) => {
-  const [page, setPage] = usePage();
+  const [page, setPage] = useUrl();
 
   return (
     <StyledMenuButton

@@ -13,11 +13,15 @@ export const SideBar = () => {
       </SideBarSection>
 
       <SideBarMenu.Container>
-        <SideBarMenu.Item value="message" label="Мессенджер" Icon={SendIcon} />
-        <SideBarMenu.Item value="favorite" label="Избранное" Icon={StarIcon} />
-        <SideBarMenu.Item value="deleted" label="Удаленное" Icon={DeleteIcon} />
+        <SideBarMenu.Item value="/message" label="Мессенджер" Icon={SendIcon} />
+        <SideBarMenu.Item value="/favorite" label="Избранное" Icon={StarIcon} />
         <SideBarMenu.Item
-          value="members"
+          value="/deleted"
+          label="Удаленное"
+          Icon={DeleteIcon}
+        />
+        <SideBarMenu.Item
+          value="/members"
           label="Участники"
           Icon={PeopleAltIcon}
         />
