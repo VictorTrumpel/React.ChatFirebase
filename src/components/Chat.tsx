@@ -1,20 +1,13 @@
-import React, { FormEvent, useEffect, useRef } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { orderBy, query } from "firebase/firestore";
-import { Avatar, Box } from "@mui/material";
-import { messagesCollection } from "../firebase/FireBase";
+import React, { FormEvent } from "react";
+import { Box } from "@mui/material";
 import { MessageInput } from "./MessageInput";
 import { useUser } from "../hooks/useUser";
 import { store } from "../store/store";
 import { sendMessage } from "../utils/sendMessage";
+import { MessagesWindow } from "./MessagesWindow";
 
 export const Chat = () => {
   const [user] = useUser();
-  const bottomRef = useRef<HTMLDivElement | null>(null);
-
-  const [messages] = useCollectionData(
-    query(messagesCollection, orderBy("createdAt"))
-  );
 
   const handleSubmitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,10 +16,6 @@ export const Chat = () => {
     await sendMessage(user, messageText);
   };
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
   return (
     <Box
       height="100%"
@@ -34,24 +23,7 @@ export const Chat = () => {
       flexDirection="column"
       justifyContent="space-between"
     >
-      <div style={{ flex: "1", overflowY: "auto" }}>
-        {messages?.map((message, idx) => (
-          <div
-            key={idx}
-            style={{
-              display: "flex",
-              marginBottom: "30px",
-            }}
-          >
-            <Avatar src={message.photoUrl} />
-            <div style={{ marginLeft: "17px" }}>
-              <strong style={{ color: "white" }}>{message.displayName}</strong>
-              <p style={{ marginTop: "5px" }}>{message.text}</p>
-            </div>
-          </div>
-        ))}
-        <div ref={bottomRef} />
-      </div>
+      <MessagesWindow />
       <form onSubmit={handleSubmitForm}>
         <MessageInput />
       </form>
