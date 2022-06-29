@@ -7,7 +7,7 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { messageSlice } from "../../store/reducers/messageSlice";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 
-const LIMIT_ACTIVE_MESSAGES = 10;
+const LIMIT_ACTIVE_MESSAGES = 20;
 
 const messageQuery = query(
   messagesCollection,
