@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React, { FormEvent, useEffect, useRef } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { orderBy, query } from "firebase/firestore";
 import { Avatar, Box } from "@mui/material";
@@ -10,6 +10,7 @@ import { sendMessage } from "../utils/sendMessage";
 
 export const Chat = () => {
   const [user] = useUser();
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
   const [messages] = useCollectionData(
     query(messagesCollection, orderBy("createdAt"))
@@ -21,6 +22,10 @@ export const Chat = () => {
     if (!user) return;
     await sendMessage(user, messageText);
   };
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <Box
@@ -45,6 +50,7 @@ export const Chat = () => {
             </div>
           </div>
         ))}
+        <div ref={bottomRef} />
       </div>
       <form onSubmit={handleSubmitForm}>
         <MessageInput />
