@@ -4,6 +4,16 @@ import { messageReducer } from "./reducers/messageSlice";
 
 export const store = configureStore({
   reducer: { urlReducer, messageReducer },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["message/setMessageData"],
+        ignoredPaths: [
+          "messageReducer.lastMessage",
+          "messageReducer.firstActiveMessage",
+        ],
+      },
+    }),
 });
 
 export type AppDispatch = typeof store.dispatch;

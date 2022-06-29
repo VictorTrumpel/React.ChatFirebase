@@ -1,7 +1,9 @@
 import React from "react";
 import { styled } from "@mui/material";
 import { MessageInput } from "./MessageInput";
-import { ActiveMessagesWindow } from "./ActiveMessagesWindow";
+import { ActiveMessagesWindow } from "./MessagesWindow/ActiveMessagesWindow";
+import { HistoryMessagesWindow } from "./MessagesWindow/HistoryMessagesWindow";
+import { StyledMessageWindow } from "./MessagesWindow/style";
 
 const ChatContainer = styled("section")(() => ({
   height: "100%",
@@ -13,7 +15,10 @@ const ChatContainer = styled("section")(() => ({
 export const Chat = () => {
   return (
     <ChatContainer>
-      <ActiveMessagesWindow />
+      <StyledMessageWindow>
+        <HistoryMessagesWindow />
+        <ActiveMessagesWindow />
+      </StyledMessageWindow>
       <MessageInput />
     </ChatContainer>
   );
