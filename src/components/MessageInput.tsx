@@ -26,10 +26,11 @@ export const MessageInput = ({ onSendMessage }: MessageInputProps) => {
 
   const handleSubmit: HandleFormSubmit = async (e) => {
     e.preventDefault();
-    let messageText = input.current?.value;
+    const messageText = input.current?.value;
     if (!user) return;
     if (!messageText) return;
     onSendMessage?.();
+    if (input.current) input.current.value = "";
     await sendMessage(user, messageText);
   };
 

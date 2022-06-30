@@ -20,7 +20,7 @@ export const HistoryMessagesWindow = () => {
       {historyMessage?.map((_, idx, messages) => {
         const message = messages[messages.length - (idx + 1)];
 
-        return <Message key={message.uid + idx} message={message} />;
+        return <Message key={message.id} message={message} />;
       })}
     </div>
   );
