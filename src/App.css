@@ -7,10 +7,17 @@
 
 body {
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(47, 49, 54);
 }
 
 #root {
   height: 100%;
+  flex: 1;
+  max-height: 969px;
+  max-width: 1920px;
 }
 
 * {
