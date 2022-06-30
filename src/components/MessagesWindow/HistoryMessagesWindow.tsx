@@ -1,23 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { Message } from "../Message";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import { messageSlice } from "../../store/reducers/messageSlice";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 export const HistoryMessagesWindow = () => {
+  const dispatch = useAppDispatch();
   const { historyMessage } = useAppSelector((state) => state.messageReducer);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    console.log(historyMessage);
-  }, [historyMessage]);
+    return () => {
+      dispatch(messageSlice.actions.clearHistory());
+    };
+  }, []);
 
   return (
-    <div className="history-messages">
+    <div ref={ref} className="history-messages">
       {historyMessage?.map((_, idx, messages) => {
         const message = messages[messages.length - (idx + 1)];
 
-        return <Message key={idx} message={message} />;
+        return <Message key={message.uid + idx} message={message} />;
       })}
-      <h5 style={{ textAlign: "center" }}>history message</h5>
-      <hr />
     </div>
   );
 };

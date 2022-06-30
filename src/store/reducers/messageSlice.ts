@@ -32,7 +32,7 @@ const messageQuery = (startAfterKey: string) =>
     messagesCollection,
     orderBy("createdAt", "desc"),
     startAfter(startAfterKey),
-    limit(5)
+    limit(20)
   );
 
 export const fetchHistoryMessage = createAsyncThunk(
