@@ -1,22 +1,23 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { orderBy, query, limit, DocumentData } from "firebase/firestore";
+import { orderBy, query, limit } from "firebase/firestore";
 import { messagesCollection } from "../../firebase/FireBase";
 import { Message } from "../Message";
-import { messageSlice } from "../../store/reducers/messageSlice";
+import { chatSlice } from "../../store/reducers/chatSlice";
 import { changeActiveMessagesEffect } from "../Chat/Chat";
-import { store } from "../../store/store";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 const LIMIT_ACTIVE_MESSAGES = 20;
 
-export const ActiveMessageList = () => {
-  const [messages] = useCollectionData(messageQuery);
+const { setLastActiveMessage } = chatSlice.actions;
 
-  const bottomRef = useRef<HTMLDivElement | null>(null);
+export const ActiveMessageList = () => {
+  const dispatch = useAppDispatch();
+  const [messages] = useCollectionData(messageQuery(LIMIT_ACTIVE_MESSAGES));
 
   useEffect(() => {
-    dispatchMessage("lastMessage", messages?.[0]);
-    dispatchMessage("firstActiveMessage", messages?.[messages?.length - 1]);
+    const lastActiveMessage = messages?.[messages?.length - 1];
+    dispatch(setLastActiveMessage(lastActiveMessage));
     changeActiveMessagesEffect();
   }, [messages]);
 
@@ -27,27 +28,13 @@ export const ActiveMessageList = () => {
 
         return <Message key={idx} message={message} />;
       })}
-      <div ref={bottomRef} />
     </div>
   );
 };
 
-const messageQuery = query(
-  messagesCollection,
-  orderBy("createdAt", "desc"),
-  limit(LIMIT_ACTIVE_MESSAGES)
-);
-
-function dispatchMessage(
-  messageType: "firstActiveMessage" | "lastMessage",
-  messageData?: DocumentData
-) {
-  const { setMessageData } = messageSlice.actions;
-
-  store.dispatch(
-    setMessageData({
-      messageType,
-      messageData,
-    })
+const messageQuery = (activeMessages: number) =>
+  query(
+    messagesCollection,
+    orderBy("createdAt", "desc"),
+    limit(activeMessages)
   );
-}

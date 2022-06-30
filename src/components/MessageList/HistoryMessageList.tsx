@@ -1,19 +1,20 @@
 import React, { useRef, useEffect } from "react";
 import { Message } from "../Message";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { messageSlice } from "../../store/reducers/messageSlice";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { chatSlice } from "../../store/reducers/chatSlice";
+import { store } from "../../store/store";
+
+const clearHistoryOnUnmount = () => {
+  return () => {
+    store.dispatch(chatSlice.actions.clearHistory());
+  };
+};
 
 export const HistoryMessageList = () => {
-  const dispatch = useAppDispatch();
   const { historyMessage } = useAppSelector((state) => state.messageReducer);
   const ref = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    return () => {
-      dispatch(messageSlice.actions.clearHistory());
-    };
-  }, []);
+  useEffect(clearHistoryOnUnmount, []);
 
   return (
     <div ref={ref} className="history-messages">

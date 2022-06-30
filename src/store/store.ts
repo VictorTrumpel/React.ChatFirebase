@@ -1,6 +1,6 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { urlReducer } from "./reducers/urlSlice";
-import { messageReducer } from "./reducers/messageSlice";
+import { messageReducer } from "./reducers/chatSlice";
 
 export const store = configureStore({
   reducer: { urlReducer, messageReducer },
