@@ -8,15 +8,16 @@ import {
   limit,
 } from "firebase/firestore";
 import { messagesCollection } from "../../firebase/FireBase";
+import { getHistoryMessages } from "../getters";
 
 type MessageInitialState = {
-  message: string;
+  historyMessage: DocumentData[];
   firstActiveMessage: null | DocumentData;
   lastMessage: null | DocumentData;
 };
 
 const initialState: MessageInitialState = {
-  message: "",
+  historyMessage: [],
   firstActiveMessage: null,
   lastMessage: null,
 };
@@ -37,8 +38,13 @@ const messageQuery = (startAfterKey: string) =>
 export const fetchHistoryMessage = createAsyncThunk(
   "message/fetchHistoryMessage",
   async (fromMessage: DocumentData | null) => {
+    const history = getHistoryMessages();
+
+    const startMessage =
+      history.length === 0 ? fromMessage : history[history.length - 1];
+
     const snapshotMessages = await getDocs(
-      messageQuery(fromMessage?.createdAt)
+      messageQuery(startMessage?.createdAt)
     );
 
     const rec: any[] = [];
@@ -55,18 +61,18 @@ export const messageSlice = createSlice({
   name: "message",
   initialState,
   reducers: {
-    changeMessage: (state, action: PayloadAction<string>) => {
-      state.message = action.payload;
-    },
     setMessageData: (state, action: PayloadAction<MessagePayload>) => {
       const { messageType, messageData } = action.payload;
       if (messageData) state[messageType] = messageData;
     },
+    clearHistory: (state) => {
+      console.log("clear history");
+      state.historyMessage.length = 0;
+    },
   },
   extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchHistoryMessage.fulfilled, (state, action) => {
-      console.log(action);
+      state.historyMessage.push(...action.payload);
     });
   },
 });

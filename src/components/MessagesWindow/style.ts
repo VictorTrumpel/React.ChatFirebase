@@ -6,6 +6,7 @@ export const StyledMessageWindow = styled("div")(() => ({
   display: "flex",
   alignItems: "flex-end",
   flexWrap: "wrap",
+  paddingTop: "40px",
   "& .history-messages": {
     minWidth: "100%",
   },

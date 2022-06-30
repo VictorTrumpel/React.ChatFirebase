@@ -6,7 +6,7 @@ import { HistoryMessagesWindow } from "./MessagesWindow/HistoryMessagesWindow";
 import { StyledMessageWindow } from "./MessagesWindow/style";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { fetchHistoryMessage } from "../store/reducers/messageSlice";
-import { store } from "../store/store";
+import { getFirstActiveMessage } from "../store/getters";
 
 const ChatContainer = styled("section")(() => ({
   height: "100%",
@@ -23,13 +23,10 @@ export const Chat = () => {
     if (ref.current) {
       const { scrollTop } = ref.current;
       if (scrollTop === 0) {
-        dispatch(
-          fetchHistoryMessage(
-            store.getState().messageReducer.firstActiveMessage
-          )
-        );
+        dispatch(fetchHistoryMessage(getFirstActiveMessage()));
+        // @ts-ignore
+        ref.current.scrollTop = 40;
       }
-      console.log(scrollTop);
     }
   };
 

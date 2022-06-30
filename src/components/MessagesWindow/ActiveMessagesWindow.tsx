@@ -42,7 +42,9 @@ export const ActiveMessagesWindow = () => {
     dispatchMessage("lastMessage", messages?.[0]);
     dispatchMessage("firstActiveMessage", messages?.[messages?.length - 1]);
 
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const bottomLine = bottomRef.current;
+
+    bottomLine?.scrollIntoView();
   }, [messages]);
 
   return (

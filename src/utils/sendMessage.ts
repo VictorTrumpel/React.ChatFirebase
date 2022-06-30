@@ -1,11 +1,8 @@
 import { addDoc, serverTimestamp } from "firebase/firestore";
 import { messagesCollection } from "../firebase/FireBase";
 import { User } from "firebase/auth";
-import { store } from "../store/store";
 
-export const sendMessage = async (user: User) => {
-  const messageText = store.getState().messageReducer.message;
-
+export const sendMessage = async (user: User, messageText: string) => {
   try {
     await addDoc(messagesCollection, {
       uid: user?.uid,

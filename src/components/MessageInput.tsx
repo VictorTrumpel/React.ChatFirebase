@@ -1,10 +1,11 @@
 import { Paper, IconButton, InputBase, styled } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-import { messageSlice } from "../store/reducers/messageSlice";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { sendMessage } from "../utils/sendMessage";
 import { useUser } from "../hooks/useUser";
-import { HandleFormSubmit, HandleInputChange } from "../utils/types";
+import { HandleFormSubmit } from "../utils/types";
+import { useRef } from "react";
+import { messageSlice } from "../store/reducers/messageSlice";
 
 const StyledPaperInput = styled(Paper)(() => ({
   p: "2px 4px",
@@ -20,25 +21,24 @@ const StyledPaperInput = styled(Paper)(() => ({
 export const MessageInput = () => {
   const dispatch = useAppDispatch();
   const [user] = useUser();
-  const { changeMessage } = messageSlice.actions;
+  const input = useRef<HTMLInputElement>(null);
 
   const handleSubmit: HandleFormSubmit = async (e) => {
     e.preventDefault();
+    let messageText = input.current?.value;
     if (!user) return;
-    await sendMessage(user);
-  };
-
-  const handleChange: HandleInputChange = (e) => {
-    dispatch(changeMessage(e.target.value));
+    if (!messageText) return;
+    dispatch(messageSlice.actions.clearHistory());
+    await sendMessage(user, messageText);
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <StyledPaperInput>
         <InputBase
+          inputRef={input}
           sx={{ ml: 1, flex: 1, color: "white" }}
           placeholder="Написать сообщение"
-          onChange={handleChange}
         />
         <IconButton
           type="submit"
