@@ -4,7 +4,7 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { messageSlice } from "../../store/reducers/messageSlice";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 
-export const HistoryMessagesWindow = () => {
+export const HistoryMessageList = () => {
   const dispatch = useAppDispatch();
   const { historyMessage } = useAppSelector((state) => state.messageReducer);
   const ref = useRef<HTMLDivElement | null>(null);

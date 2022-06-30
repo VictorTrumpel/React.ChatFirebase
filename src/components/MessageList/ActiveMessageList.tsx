@@ -3,43 +3,13 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { orderBy, query, limit, DocumentData } from "firebase/firestore";
 import { messagesCollection } from "../../firebase/FireBase";
 import { Message } from "../Message";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { messageSlice } from "../../store/reducers/messageSlice";
-import { ThunkDispatch } from "@reduxjs/toolkit";
+import { changeActiveMessagesEffect } from "../Chat/Chat";
+import { store } from "../../store/store";
 
 const LIMIT_ACTIVE_MESSAGES = 20;
 
-const messageQuery = query(
-  messagesCollection,
-  orderBy("createdAt", "desc"),
-  limit(LIMIT_ACTIVE_MESSAGES)
-);
-
-function DispatchMessage(
-  this: { dispatch: ThunkDispatch<any, any, any> },
-  messageType: "firstActiveMessage" | "lastMessage",
-  messageData?: DocumentData
-) {
-  const { setMessageData } = messageSlice.actions;
-
-  this.dispatch(
-    setMessageData({
-      messageType,
-      messageData,
-    })
-  );
-}
-
-type ActiveMessagesWindowProps = {
-  onChange?: () => void;
-};
-
-export const ActiveMessagesWindow = ({
-  onChange,
-}: ActiveMessagesWindowProps) => {
-  const dispatch = useAppDispatch();
-  const dispatchMessage = DispatchMessage.bind({ dispatch });
-
+export const ActiveMessageList = () => {
   const [messages] = useCollectionData(messageQuery);
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
@@ -47,8 +17,7 @@ export const ActiveMessagesWindow = ({
   useEffect(() => {
     dispatchMessage("lastMessage", messages?.[0]);
     dispatchMessage("firstActiveMessage", messages?.[messages?.length - 1]);
-
-    onChange?.();
+    changeActiveMessagesEffect();
   }, [messages]);
 
   return (
@@ -62,3 +31,23 @@ export const ActiveMessagesWindow = ({
     </div>
   );
 };
+
+const messageQuery = query(
+  messagesCollection,
+  orderBy("createdAt", "desc"),
+  limit(LIMIT_ACTIVE_MESSAGES)
+);
+
+function dispatchMessage(
+  messageType: "firstActiveMessage" | "lastMessage",
+  messageData?: DocumentData
+) {
+  const { setMessageData } = messageSlice.actions;
+
+  store.dispatch(
+    setMessageData({
+      messageType,
+      messageData,
+    })
+  );
+}

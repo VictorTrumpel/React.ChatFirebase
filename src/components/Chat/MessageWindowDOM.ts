@@ -1,4 +1,4 @@
-export class ChatWindowDOM {
+export class MessageWindowDOM {
   private chatContainer: HTMLDivElement | null = null;
 
   set ref(div: HTMLDivElement | null) {

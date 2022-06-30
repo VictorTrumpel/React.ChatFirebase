@@ -1,46 +1,47 @@
 import React, { useRef, useLayoutEffect } from "react";
-import { MessageInput } from "../MessageInput";
-import { ActiveMessagesWindow } from "../MessagesWindow/ActiveMessagesWindow";
-import { HistoryMessagesWindow } from "../MessagesWindow/HistoryMessagesWindow";
-import { StyledMessageWindow } from "../MessagesWindow/style";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { MessageInput } from "../MessageInput/MessageInput";
+import { ActiveMessageList } from "../MessageList/ActiveMessageList";
+import { HistoryMessageList } from "../MessageList/HistoryMessageList";
+import { StyledMessageWindow } from "../MessageList/style";
 import {
   fetchHistoryMessage,
   messageSlice,
 } from "../../store/reducers/messageSlice";
 import { getFirstActiveMessage } from "../../store/getters";
-import { ChatWindowDOM } from "./ChatWindowDOM";
+import { MessageWindowDOM } from "./MessageWindowDOM";
 import { ChatContainer } from "./style";
+import { store } from "../../store/store";
 
-const chatWindow = new ChatWindowDOM();
+const messageWindow = new MessageWindowDOM();
 
 export const Chat = () => {
-  const dispatch = useAppDispatch();
-  const chatWindowRef = useRef<HTMLDivElement>(null);
-
-  const onScroll = () => {
-    if (chatWindow.scrollTop === 0) {
-      dispatch(fetchHistoryMessage(getFirstActiveMessage()));
-      chatWindow.scrollToBottom(40);
-    }
-  };
-
-  const onChange = () => {
-    dispatch(messageSlice.actions.clearHistory());
-    chatWindow.scrollToBottom(chatWindow.scrollHeight);
-  };
+  const messageWindowRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    chatWindow.ref = chatWindowRef.current;
+    messageWindow.ref = messageWindowRef.current;
   }, []);
 
   return (
     <ChatContainer>
-      <StyledMessageWindow ref={chatWindowRef} onScroll={onScroll}>
-        <HistoryMessagesWindow />
-        <ActiveMessagesWindow onChange={onChange} />
+      <StyledMessageWindow
+        ref={messageWindowRef}
+        onScroll={onScrollMessageWindow}
+      >
+        <HistoryMessageList />
+        <ActiveMessageList />
       </StyledMessageWindow>
-      <MessageInput onSendMessage={onChange} />
+      <MessageInput />
     </ChatContainer>
   );
+};
+
+export const changeActiveMessagesEffect = () => {
+  store.dispatch(messageSlice.actions.clearHistory());
+  messageWindow.scrollToBottom(messageWindow.scrollHeight);
+};
+
+const onScrollMessageWindow = () => {
+  if (messageWindow.scrollTop !== 0) return;
+  store.dispatch(fetchHistoryMessage(getFirstActiveMessage()));
+  messageWindow.scrollToBottom(40);
 };
