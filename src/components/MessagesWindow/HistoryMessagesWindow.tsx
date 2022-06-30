@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Message } from "../Message";
 import { useAppSelector } from "../../hooks/useAppSelector";
 
 export const HistoryMessagesWindow = () => {
   const { historyMessage } = useAppSelector((state) => state.messageReducer);
+
+  useEffect(() => {
+    console.log(historyMessage);
+  }, [historyMessage]);
 
   return (
     <div className="history-messages">

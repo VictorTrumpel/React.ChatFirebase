@@ -30,7 +30,13 @@ function DispatchMessage(
   );
 }
 
-export const ActiveMessagesWindow = () => {
+type ActiveMessagesWindowProps = {
+  onChange?: () => void;
+};
+
+export const ActiveMessagesWindow = ({
+  onChange,
+}: ActiveMessagesWindowProps) => {
   const dispatch = useAppDispatch();
   const dispatchMessage = DispatchMessage.bind({ dispatch });
 
@@ -42,9 +48,7 @@ export const ActiveMessagesWindow = () => {
     dispatchMessage("lastMessage", messages?.[0]);
     dispatchMessage("firstActiveMessage", messages?.[messages?.length - 1]);
 
-    const bottomLine = bottomRef.current;
-
-    bottomLine?.scrollIntoView();
+    onChange?.();
   }, [messages]);
 
   return (

@@ -5,7 +5,10 @@ import { ActiveMessagesWindow } from "./MessagesWindow/ActiveMessagesWindow";
 import { HistoryMessagesWindow } from "./MessagesWindow/HistoryMessagesWindow";
 import { StyledMessageWindow } from "./MessagesWindow/style";
 import { useAppDispatch } from "../hooks/useAppDispatch";
-import { fetchHistoryMessage } from "../store/reducers/messageSlice";
+import {
+  fetchHistoryMessage,
+  messageSlice,
+} from "../store/reducers/messageSlice";
 import { getFirstActiveMessage } from "../store/getters";
 
 const ChatContainer = styled("section")(() => ({
@@ -17,26 +20,32 @@ const ChatContainer = styled("section")(() => ({
 
 export const Chat = () => {
   const dispatch = useAppDispatch();
-  const ref = useRef<HTMLDivElement>(null);
+  const chatWindow = useRef<HTMLDivElement>(null);
 
   const onScroll = () => {
-    if (ref.current) {
-      const { scrollTop } = ref.current;
+    if (chatWindow.current) {
+      const { scrollTop } = chatWindow.current;
       if (scrollTop === 0) {
         dispatch(fetchHistoryMessage(getFirstActiveMessage()));
         // @ts-ignore
-        ref.current.scrollTop = 40;
+        chatWindow.current.scrollTop = 40;
       }
     }
   };
 
+  const onChange = () => {
+    dispatch(messageSlice.actions.clearHistory());
+    // @ts-ignore
+    chatWindow.current.scrollTop = chatWindow.current.scrollHeight;
+  };
+
   return (
     <ChatContainer>
-      <StyledMessageWindow ref={ref} onScroll={onScroll}>
+      <StyledMessageWindow ref={chatWindow} onScroll={onScroll}>
         <HistoryMessagesWindow />
-        <ActiveMessagesWindow />
+        <ActiveMessagesWindow onChange={onChange} />
       </StyledMessageWindow>
-      <MessageInput />
+      <MessageInput onSendMessage={onChange} />
     </ChatContainer>
   );
 };

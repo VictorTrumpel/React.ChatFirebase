@@ -66,7 +66,6 @@ export const messageSlice = createSlice({
       if (messageData) state[messageType] = messageData;
     },
     clearHistory: (state) => {
-      console.log("clear history");
       state.historyMessage.length = 0;
     },
   },

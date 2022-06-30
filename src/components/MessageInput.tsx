@@ -1,11 +1,9 @@
 import { Paper, IconButton, InputBase, styled } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-import { useAppDispatch } from "../hooks/useAppDispatch";
 import { sendMessage } from "../utils/sendMessage";
 import { useUser } from "../hooks/useUser";
 import { HandleFormSubmit } from "../utils/types";
 import { useRef } from "react";
-import { messageSlice } from "../store/reducers/messageSlice";
 
 const StyledPaperInput = styled(Paper)(() => ({
   p: "2px 4px",
@@ -18,8 +16,11 @@ const StyledPaperInput = styled(Paper)(() => ({
   color: "white",
 }));
 
-export const MessageInput = () => {
-  const dispatch = useAppDispatch();
+type MessageInputProps = {
+  onSendMessage?: () => void;
+};
+
+export const MessageInput = ({ onSendMessage }: MessageInputProps) => {
   const [user] = useUser();
   const input = useRef<HTMLInputElement>(null);
 
@@ -28,7 +29,7 @@ export const MessageInput = () => {
     let messageText = input.current?.value;
     if (!user) return;
     if (!messageText) return;
-    dispatch(messageSlice.actions.clearHistory());
+    onSendMessage?.();
     await sendMessage(user, messageText);
   };
 
