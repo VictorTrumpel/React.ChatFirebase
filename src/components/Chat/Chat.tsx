@@ -39,6 +39,7 @@ export const changeActiveMessagesEffect = () => {
 
 const onScrollMessageWindow = () => {
   if (messageWindow.scrollTop !== 0) return;
+  if (store.getState().chatReducer.chatHistoryIsLoading) return;
   store.dispatch(loadHistoryMessageList());
   messageWindow.scrollToBottom(40);
 };

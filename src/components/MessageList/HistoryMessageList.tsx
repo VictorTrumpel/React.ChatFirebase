@@ -11,7 +11,7 @@ const clearHistoryOnUnmount = () => {
 };
 
 export const HistoryMessageList = () => {
-  const { historyMessage } = useAppSelector((state) => state.messageReducer);
+  const { historyMessage } = useAppSelector((state) => state.chatReducer);
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(clearHistoryOnUnmount, []);
@@ -21,7 +21,7 @@ export const HistoryMessageList = () => {
       {historyMessage?.map((_, idx, messages) => {
         const message = messages[messages.length - (idx + 1)];
 
-        return <Message key={message.id} message={message} />;
+        return <Message key={`history-${message.id}`} message={message} />;
       })}
     </div>
   );

@@ -1,7 +1,7 @@
 import { store } from "./store";
 
 export const getLastActiveMessage = () =>
-  store.getState().messageReducer.lastActiveMessage;
+  store.getState().chatReducer.lastActiveMessage;
 
 export const getHistoryMessages = () =>
-  store.getState().messageReducer.historyMessage;
+  store.getState().chatReducer.historyMessage;

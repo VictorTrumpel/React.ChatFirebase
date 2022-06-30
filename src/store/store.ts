@@ -1,9 +1,9 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { urlReducer } from "./reducers/urlSlice";
-import { messageReducer } from "./reducers/chatSlice";
+import { chatReducer } from "./reducers/chatSlice";
 
 export const store = configureStore({
-  reducer: { urlReducer, messageReducer },
+  reducer: { urlReducer, chatReducer },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,

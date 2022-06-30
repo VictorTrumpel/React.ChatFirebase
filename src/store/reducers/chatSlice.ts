@@ -5,11 +5,13 @@ import { loadHistoryMessageList } from "../thunks/loadHistoryMessageList";
 type MessageInitialState = {
   historyMessage: DocumentData[];
   lastActiveMessage: null | DocumentData;
+  chatHistoryIsLoading: boolean;
 };
 
 const initialState: MessageInitialState = {
   historyMessage: [],
   lastActiveMessage: null,
+  chatHistoryIsLoading: false,
 };
 
 export const chatSlice = createSlice({
@@ -28,10 +30,14 @@ export const chatSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(loadHistoryMessageList.pending, (state) => {
+      state.chatHistoryIsLoading = true;
+    });
     builder.addCase(loadHistoryMessageList.fulfilled, (state, action) => {
+      state.chatHistoryIsLoading = false;
       state.historyMessage.push(...action.payload);
     });
   },
 });
 
-export const messageReducer = chatSlice.reducer;
+export const chatReducer = chatSlice.reducer;

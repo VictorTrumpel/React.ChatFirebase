@@ -7,6 +7,7 @@ import { useLayoutEffect, useRef } from "react";
 import { iconButtonCss, inputBaseCss, StyledPaperInput } from "./style";
 import { InputDOM } from "./InputDOM";
 import { User } from "firebase/auth";
+import { changeActiveMessagesEffect } from "../Chat/Chat";
 
 const input = new InputDOM();
 
@@ -50,5 +51,6 @@ const onSubmit: HandleFormSubmit = async function (
   if (!this.user) return;
   if (!messageText) return;
 
+  changeActiveMessagesEffect();
   await sendMessage(this.user, messageText);
 };
