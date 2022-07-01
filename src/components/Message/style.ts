@@ -26,7 +26,7 @@ export const StyledMessageContainer = styled("div")(() => ({
 
 export const MessagePanelStyle = styled("div")(() => ({
   position: "absolute",
-  right: "12px",
+  right: "24px",
   top: "-16px",
   height: "32px",
   border: "1px solid rgb(50, 53, 59)",
