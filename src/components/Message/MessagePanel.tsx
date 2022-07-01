@@ -12,7 +12,6 @@ export const MessagePanel = ({ message, isOpen }: MessagePanelProps) => {
   if (!isOpen) return <></>;
 
   const addFavorites = () => {
-    console.log(message);
     addMessageToFavorite(message);
   };
 

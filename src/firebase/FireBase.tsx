@@ -12,7 +12,7 @@ export type FireContextType = {
 
 export const FireBaseContext = createContext<FireContextType | any>(null);
 
-const firebase = initializeApp(firebaseConfig);
+export const firebase = initializeApp(firebaseConfig);
 const auth = getAuth(firebase);
 export const firestore = getFirestore(firebase);
 
