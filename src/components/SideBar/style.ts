@@ -30,6 +30,10 @@ export const SideBarContainer = styled("div")(() => ({
   backgroundColor: "rgb(47, 49, 54)",
   display: "flex",
   flexDirection: "column",
+  transform: "translate(-90%)",
+
+  transitionProperty: "transform",
+  transitionDuration: "1.5s",
 }));
 
 export const SideBarSection = styled(Box)(() => ({

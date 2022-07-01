@@ -1,14 +1,10 @@
-import { Container, Grid } from "@mui/material";
-import { LoginForm } from "../components/LoginForm";
+import { LogInBtn } from "../components/LogInBtn/LogInBtn";
+import { PageContainer } from "../layouts/BaseLayout";
 
 export const LoginPage = () => {
   return (
-    <Container>
-      <Grid container>
-        <Grid container>
-          <LoginForm />
-        </Grid>
-      </Grid>
-    </Container>
+    <PageContainer sx={{ justifyContent: "center", alignItems: "center" }}>
+      <LogInBtn />
+    </PageContainer>
   );
 };

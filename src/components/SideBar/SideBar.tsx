@@ -5,10 +5,20 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SendIcon from "@mui/icons-material/Send";
 import { LogOutBtn } from "../LogOutBtn";
+import { useRef, useEffect } from "react";
 
 export const SideBar = () => {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.style.transform = "translate(0%)";
+      console.log(ref.current.style.transform);
+    }
+  }, []);
+
   return (
-    <SideBarContainer>
+    <SideBarContainer ref={ref}>
       <SideBarSection height="46px" display="flex" alignItems="center">
         <h1 style={{ fontWeight: "normal" }}>TrueChat</h1>
       </SideBarSection>
