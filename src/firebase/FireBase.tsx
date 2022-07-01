@@ -14,7 +14,7 @@ export const FireBaseContext = createContext<FireContextType | any>(null);
 
 const firebase = initializeApp(firebaseConfig);
 const auth = getAuth(firebase);
-const firestore = getFirestore(firebase);
+export const firestore = getFirestore(firebase);
 
 export const messagesCollection = collection(firestore, "messages");
 
