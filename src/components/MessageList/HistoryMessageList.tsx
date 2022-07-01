@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { Message } from "../Message";
+import { Message } from "../Message/Message";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { chatSlice } from "../../store/reducers/chatSlice";
 import { store } from "../../store/store";

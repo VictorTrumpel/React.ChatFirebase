@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { orderBy, query, limit } from "firebase/firestore";
 import { messagesCollection } from "../../firebase/FireBase";
-import { Message } from "../Message";
+import { Message } from "../Message/Message";
 import { chatSlice } from "../../store/reducers/chatSlice";
 import { changeActiveMessagesEffect } from "../Chat/Chat";
 import { useAppDispatch } from "../../hooks/useAppDispatch";

@@ -5,4 +5,8 @@ export const ChatContainer = styled("section")(() => ({
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
+  "& form": {
+    paddingLeft: "24px",
+    paddingRight: "24px",
+  },
 }));

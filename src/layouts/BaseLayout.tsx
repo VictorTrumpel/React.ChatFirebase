@@ -19,7 +19,7 @@ export const BaseLayout = ({ children }: BaseLayoutProps) => {
   return (
     <Box display="flex" height="100%">
       {user && <SideBar />}
-      <PageContainer>{children}</PageContainer>
+      {children}
     </Box>
   );
 };

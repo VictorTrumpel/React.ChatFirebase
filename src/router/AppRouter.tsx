@@ -10,8 +10,8 @@ import { useUrl } from "../hooks/useUrl";
 import { NotFoundPage } from "../pages/NotFoundPage";
 
 const StyledPageContainer = styled(Box)(() => ({
-  paddingLeft: "24px",
-  paddingRight: "24px",
+  // paddingLeft: "24px",
+  // paddingRight: "24px",
   overflow: "hidden",
   backgroundColor: "rgb(54, 57, 63)",
   color: "rgb(188, 188, 191)",

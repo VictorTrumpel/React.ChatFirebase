@@ -1,20 +1,7 @@
 import React from "react";
-import { Avatar, styled } from "@mui/material";
+import { Avatar } from "@mui/material";
 import { DocumentData } from "firebase/firestore";
-
-const StyledMessageContainer = styled("div")(() => ({
-  display: "flex",
-  marginBottom: "30px",
-  "& .message_info": {
-    marginLeft: "17px",
-    "& strong": {
-      color: "white",
-    },
-    "& p": {
-      marginTop: "5px",
-    },
-  },
-}));
+import { StyledMessageContainer } from "./style";
 
 export const Message = ({ message }: { message: DocumentData }) => {
   return (
