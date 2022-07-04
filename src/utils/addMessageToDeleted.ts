@@ -1,11 +1,17 @@
 import { doc, setDoc } from "firebase/firestore";
 import { DocumentData } from "firebase/firestore";
 import { firestore } from "../firebase/FireBase";
+import { User } from "firebase/auth";
 
-export const addMessageToDeleted = (message: DocumentData) => {
+export const addMessageToDeleted = (user: User, message: DocumentData) => {
   const messageRef = doc(firestore, "messages", message.id);
 
-  const data = { isDeleted: true };
+  const data = {
+    deletedFor:
+      message.deletedFor instanceof Array
+        ? [...message.favoriteFor, user.uid]
+        : [user.uid],
+  };
   const options = { merge: true };
 
   setDoc(messageRef, data, options);

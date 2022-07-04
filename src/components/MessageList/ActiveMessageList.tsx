@@ -11,14 +11,21 @@ const LIMIT_ACTIVE_MESSAGES = 20;
 
 const { setLastActiveMessage } = chatSlice.actions;
 
+let FIRST_ACTIVE_MESSAGE_ID_CACHE = "";
+
 export const ActiveMessageList = () => {
   const dispatch = useAppDispatch();
   const [messages] = useCollectionData(messageQuery(LIMIT_ACTIVE_MESSAGES));
 
   useEffect(() => {
     const lastActiveMessage = messages?.[messages?.length - 1];
+    const firstActiveMessage = messages?.[0]?.id;
     dispatch(setLastActiveMessage(lastActiveMessage));
-    changeActiveMessagesEffect();
+
+    if (FIRST_ACTIVE_MESSAGE_ID_CACHE !== firstActiveMessage) {
+      changeActiveMessagesEffect();
+      FIRST_ACTIVE_MESSAGE_ID_CACHE = firstActiveMessage;
+    }
   }, [messages]);
 
   return (

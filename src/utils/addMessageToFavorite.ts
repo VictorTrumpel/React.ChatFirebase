@@ -1,12 +1,25 @@
 import { doc, setDoc } from "firebase/firestore";
 import { DocumentData } from "firebase/firestore";
 import { firestore } from "../firebase/FireBase";
+import { User } from "firebase/auth";
 
-export const addMessageToFavorite = (message: DocumentData) => {
+export const addMessageToFavorite = async (
+  user: User,
+  message: DocumentData
+) => {
   const messageRef = doc(firestore, "messages", message.id);
 
-  const data = { isFavorite: true };
+  const data = {
+    favoriteFor:
+      message.favoriteFor instanceof Array
+        ? [...message.favoriteFor, user.uid]
+        : [user.uid],
+  };
   const options = { merge: true };
 
-  setDoc(messageRef, data, options);
+  try {
+    await setDoc(messageRef, data, options);
+  } catch (e) {
+    console.error(e);
+  }
 };
