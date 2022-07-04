@@ -3,7 +3,10 @@ import { DocumentData } from "firebase/firestore";
 import { firestore } from "../firebase/FireBase";
 import { User } from "firebase/auth";
 
-export const addMessageToDeleted = (user: User, message: DocumentData) => {
+export const addMessageToDeleted = async (
+  user: User,
+  message: DocumentData
+) => {
   const messageRef = doc(firestore, "messages", message.id);
 
   const data = {
@@ -14,5 +17,9 @@ export const addMessageToDeleted = (user: User, message: DocumentData) => {
   };
   const options = { merge: true };
 
-  setDoc(messageRef, data, options);
+  try {
+    await setDoc(messageRef, data, options);
+  } catch (e) {
+    console.error(e);
+  }
 };

@@ -33,7 +33,7 @@ export const ActiveMessageList = () => {
       {messages?.map((_, idx, messages) => {
         const message = messages[messages.length - (idx + 1)];
 
-        return <Message key={`active-${idx}`} message={message} />;
+        return <Message key={`active-${message.id}`} message={message} />;
       })}
     </div>
   );
