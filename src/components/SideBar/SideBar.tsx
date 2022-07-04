@@ -13,7 +13,6 @@ export const SideBar = () => {
   useEffect(() => {
     if (ref.current) {
       ref.current.style.transform = "translate(0%)";
-      console.log(ref.current.style.transform);
     }
   }, []);
 
