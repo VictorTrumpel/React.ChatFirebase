@@ -1,7 +1,5 @@
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef, useLayoutEffect, ReactNode } from "react";
 import { MessageInput } from "../MessageInput/MessageInput";
-import { ActiveMessageList } from "../MessageList/ActiveMessageList";
-import { HistoryMessageList } from "../MessageList/HistoryMessageList";
 import { StyledMessageWindow } from "../MessageList/style";
 import { chatSlice } from "../../store/reducers/chatSlice";
 import { MessageWindowDOM } from "./MessageWindowDOM";
@@ -11,7 +9,12 @@ import { loadHistoryMessageList } from "../../store/thunks/loadHistoryMessageLis
 
 const messageWindow = new MessageWindowDOM();
 
-export const Chat = () => {
+type ChatProps = {
+  children: ReactNode;
+  writable?: boolean;
+};
+
+export const Chat = ({ children, writable = true }: ChatProps) => {
   const messageWindowRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -24,10 +27,9 @@ export const Chat = () => {
         ref={messageWindowRef}
         onScroll={onScrollMessageWindow}
       >
-        <HistoryMessageList />
-        <ActiveMessageList />
+        {children}
       </StyledMessageWindow>
-      <MessageInput />
+      {writable && <MessageInput />}
     </ChatContainer>
   );
 };
