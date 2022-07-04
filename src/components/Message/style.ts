@@ -10,6 +10,11 @@ export const StyledMessageContainer = styled("div")(() => ({
   paddingBottom: "4px",
   borderTopRightRadius: "4px",
   borderBottomRightRadius: "4px",
+  "&.isFavorite": {
+    backgroundColor: "rgb(73, 68, 60)",
+    borderLeft: "2px solid rgb(250, 168, 26)",
+    paddingLeft: "22px",
+  },
   "& .message_info": {
     marginLeft: "17px",
     "& strong": {

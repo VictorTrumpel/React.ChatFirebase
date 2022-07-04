@@ -1,11 +1,11 @@
-import { addDoc, serverTimestamp } from "firebase/firestore";
-import { messagesCollection } from "../firebase/FireBase";
+import { serverTimestamp, setDoc, doc } from "firebase/firestore";
+import { firestore } from "../firebase/FireBase";
 import { User } from "firebase/auth";
 import uniqid from "uniqid";
 
 export const sendMessage = async (user: User, messageText: string) => {
   const messageData = {
-    id: uniqid(),
+    id: uniqid.process(),
     uid: user?.uid,
     displayName: user?.displayName,
     photoUrl: user?.photoURL,
@@ -14,7 +14,7 @@ export const sendMessage = async (user: User, messageText: string) => {
   };
 
   try {
-    await addDoc(messagesCollection, messageData);
+    await setDoc(doc(firestore, "messages", messageData.id), messageData);
   } catch (e) {
     console.error(e);
   }

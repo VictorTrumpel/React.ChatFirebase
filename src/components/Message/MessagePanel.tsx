@@ -1,7 +1,11 @@
 import StarIcon from "@mui/icons-material/Star";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 import { MessagePanelStyle, MessageActionStyle } from "./style";
 import { addMessageToFavorite } from "../../utils/addMessageToFavorite";
 import { DocumentData } from "firebase/firestore";
+import { ReactNode } from "react";
+import { addMessageToDeleted } from "../../utils/addMessageToDeleted";
 
 type MessagePanelProps = {
   isOpen: boolean;
@@ -11,25 +15,29 @@ type MessagePanelProps = {
 export const MessagePanel = ({ message, isOpen }: MessagePanelProps) => {
   if (!isOpen) return <></>;
 
-  const addFavorites = () => {
-    addMessageToFavorite(message);
-  };
-
   return (
     <MessagePanelStyle className="message-panel">
-      <MessageAction onClick={addFavorites} />
+      <MessageAction
+        onClick={addMessageToFavorite.bind(null, message)}
+        Icon={<StarIcon />}
+      />
+      <MessageAction
+        onClick={addMessageToDeleted.bind(null, message)}
+        Icon={<DeleteIcon />}
+      />
     </MessagePanelStyle>
   );
 };
 
 type MessageActionProps = {
   onClick: () => void;
+  Icon: ReactNode;
 };
 
-const MessageAction = ({ onClick }: MessageActionProps) => {
+const MessageAction = ({ onClick, Icon }: MessageActionProps) => {
   return (
     <MessageActionStyle disableRipple onClick={onClick}>
-      <StarIcon />
+      {Icon}
     </MessageActionStyle>
   );
 };
