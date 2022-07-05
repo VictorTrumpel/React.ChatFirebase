@@ -4,7 +4,7 @@ import { createContext, useContext } from "react";
 export type ChatContextType = {
   historyQuery: (startAfterKey: string) => Query<DocumentData>;
   messageQuery: () => Query<DocumentData>;
-  messageType: "Common" | "Favorite";
+  messageType: "Common" | "Favorite" | "Deleted";
 };
 
 export const ChatContext = createContext<ChatContextType | null>(null);
