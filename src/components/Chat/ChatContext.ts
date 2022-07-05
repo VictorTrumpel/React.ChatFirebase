@@ -1,9 +1,10 @@
 import { DocumentData, Query } from "firebase/firestore";
 import { createContext, useContext } from "react";
 
-type ChatContextType = {
+export type ChatContextType = {
   historyQuery: (startAfterKey: string) => Query<DocumentData>;
   messageQuery: () => Query<DocumentData>;
+  messageType: "Common" | "Favorite";
 };
 
 export const ChatContext = createContext<ChatContextType | null>(null);

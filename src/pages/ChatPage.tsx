@@ -7,7 +7,11 @@ import { chatHistoryQuery } from "../firebase/queries/chatHistoryQuery";
 
 export const ChatPage = () => {
   return (
-    <Chat historyQuery={chatHistoryQuery} messageQuery={chatMessageQuery}>
+    <Chat
+      historyQuery={chatHistoryQuery}
+      messageQuery={chatMessageQuery}
+      messageType="Common"
+    >
       <HistoryMessageList />
       <ActiveMessageList />
     </Chat>

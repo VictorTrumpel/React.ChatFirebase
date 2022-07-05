@@ -6,23 +6,21 @@ import { MessageWindowDOM } from "./MessageWindowDOM";
 import { ChatContainer } from "./style";
 import { store } from "../../store/store";
 import { loadHistoryMessageList } from "../../store/thunks/loadHistoryMessageList";
-import { DocumentData, Query } from "firebase/firestore";
-import { ChatContext } from "./ChatContext";
+import { ChatContext, ChatContextType } from "./ChatContext";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 
 type ChatProps = {
   children: ReactNode;
   writable?: boolean;
-  historyQuery: (startAfterKey: string) => Query<DocumentData>;
-  messageQuery: () => Query<DocumentData>;
-};
+} & ChatContextType;
 
 const messageWindow = new MessageWindowDOM();
 
 export const Chat = ({
   children,
   writable = true,
+  messageType = "Common",
   historyQuery,
   messageQuery,
 }: ChatProps) => {
@@ -42,7 +40,7 @@ export const Chat = ({
   }, []);
 
   return (
-    <ChatContext.Provider value={{ historyQuery, messageQuery }}>
+    <ChatContext.Provider value={{ historyQuery, messageQuery, messageType }}>
       <ChatContainer>
         <StyledMessageWindow
           ref={messageWindowRef}
@@ -50,6 +48,7 @@ export const Chat = ({
         >
           {children}
         </StyledMessageWindow>
+
         {writable && <MessageInput />}
       </ChatContainer>
     </ChatContext.Provider>
