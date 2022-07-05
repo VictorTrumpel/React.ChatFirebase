@@ -2,7 +2,6 @@ import { SideBarMenu } from "./SideBarMenu";
 import { SideBarContainer, SideBarSection } from "./style";
 import StarIcon from "@mui/icons-material/Star";
 import DeleteIcon from "@mui/icons-material/Delete";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SendIcon from "@mui/icons-material/Send";
 import { LogOutBtn } from "../LogOutBtn";
 import { useRef, useEffect } from "react";
@@ -29,11 +28,6 @@ export const SideBar = () => {
           value="/deleted"
           label="Удаленное"
           Icon={DeleteIcon}
-        />
-        <SideBarMenu.Item
-          value="/members"
-          label="Участники"
-          Icon={PeopleAltIcon}
         />
       </SideBarMenu.Container>
 
