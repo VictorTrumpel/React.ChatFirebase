@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
-import { Message } from "../Message/Message";
+import React, { useEffect, useMemo } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { chatSlice } from "../../store/reducers/chatSlice";
 import { store } from "../../store/store";
+import { useChat } from "../Chat/ChatContext";
+import { MessageDictionary } from "../Message/MessageDictionary";
 
 const clearHistoryOnUnmount = () => {
   return () => {
@@ -11,7 +12,10 @@ const clearHistoryOnUnmount = () => {
 };
 
 export const HistoryMessageList = () => {
+  const { messageType } = useChat();
   const { historyMessage } = useAppSelector((state) => state.chatReducer);
+
+  const Message = useMemo(() => MessageDictionary[messageType], []);
 
   useEffect(clearHistoryOnUnmount, []);
 
