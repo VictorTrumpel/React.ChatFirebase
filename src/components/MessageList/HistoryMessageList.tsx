@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Message } from "../Message/Message";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { chatSlice } from "../../store/reducers/chatSlice";
@@ -12,17 +12,16 @@ const clearHistoryOnUnmount = () => {
 
 export const HistoryMessageList = () => {
   const { historyMessage } = useAppSelector((state) => state.chatReducer);
-  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(clearHistoryOnUnmount, []);
 
   return (
-    <div ref={ref} className="history-messages">
+    <>
       {historyMessage?.map((_, idx, messages) => {
         const message = messages[messages.length - (idx + 1)];
 
         return <Message key={`history-${message.id}`} message={message} />;
       })}
-    </div>
+    </>
   );
 };

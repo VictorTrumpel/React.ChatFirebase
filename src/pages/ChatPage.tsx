@@ -1,11 +1,13 @@
+import React from "react";
 import { Chat } from "../components/Chat/Chat";
 import { HistoryMessageList } from "../components/MessageList/HistoryMessageList";
 import { ActiveMessageList } from "../components/MessageList/ActiveMessageList";
-import React from "react";
+import { chatMessageQuery } from "../firebase/queries/chatMessageQuery";
+import { chatHistoryQuery } from "../firebase/queries/chatHistoryQuery";
 
 export const ChatPage = () => {
   return (
-    <Chat>
+    <Chat historyQuery={chatHistoryQuery} messageQuery={chatMessageQuery}>
       <HistoryMessageList />
       <ActiveMessageList />
     </Chat>

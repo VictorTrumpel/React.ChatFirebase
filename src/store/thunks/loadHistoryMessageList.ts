@@ -1,19 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getDocs, limit, orderBy, query, startAfter } from "firebase/firestore";
+import { DocumentData, getDocs, Query } from "firebase/firestore";
 import { getHistoryMessages, getLastActiveMessage } from "../getters";
-import { messagesCollection } from "../../firebase/FireBase";
-
-const messageQuery = (startAfterKey: string) =>
-  query(
-    messagesCollection,
-    orderBy("createdAt", "desc"),
-    startAfter(startAfterKey),
-    limit(20)
-  );
 
 export const loadHistoryMessageList = createAsyncThunk(
   "message/fetchHistoryMessage",
-  async () => {
+  async (historyQuery: (startAfterKey: string) => Query<DocumentData>) => {
     const history = getHistoryMessages();
     const lastActiveMessage = getLastActiveMessage();
 
@@ -21,7 +12,7 @@ export const loadHistoryMessageList = createAsyncThunk(
       history.length === 0 ? lastActiveMessage : history[history.length - 1];
 
     const snapshotMessages = await getDocs(
-      messageQuery(startAfterMessage?.createdAt)
+      historyQuery(startAfterMessage?.createdAt)
     );
 
     const rec: any[] = [];
